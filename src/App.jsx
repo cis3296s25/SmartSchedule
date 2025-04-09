@@ -2,6 +2,10 @@
 import {useState, useRef} from 'react';
 import './App.css';
 import axios from "axios";
+
+
+
+
 import logo from "./assets/templelogo.png";
 import SemesterSelector from "./components/SemesterSelector.jsx";
 import GeneratedSchedules from "./components/GeneratedSchedules.jsx";
@@ -73,6 +77,9 @@ function App() {
     };
 
 
+
+
+
     return (
         <>
 
@@ -108,6 +115,8 @@ function App() {
             <button onClick={handleGeneration} disabled={loadingSchedules}>
               {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
             </button>
+        
+
 
             <GeneratedSchedules schedule={schedule} schedulerContainerRef={schedulerContainerRef} isLoading={loadingSchedules}/>
         </>

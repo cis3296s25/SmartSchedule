@@ -1,5 +1,7 @@
 /* global scheduler */
 import { useEffect, useState } from 'react';
+import html2canvas from "html2canvas"; // Used to capture the DOM as an image
+import jsPDF from "jspdf"; // Used to generate and export PDF files
 
 function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
     const [currentScheduleIndex, setCurrentScheduleIndex] = useState(1);
@@ -86,6 +88,37 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
         }
     };
 
+
+    // func to download generated schedule as a .jpg/.pdf
+    const handleDownload = async (type) => {
+        if (!schedulerContainerRef.current) return;
+  
+        const canvas = await html2canvas(schedulerContainerRef.current, { // Capture the DOM element as a canvas
+          
+          //added the properties below to ensure full schedule generated was captured. 
+          scrollY: -window.scrollY, // Prevent sticky elements
+          windowHeight: schedulerContainerRef.current.scrollHeight, // Capture full height of scheduler
+          useCORS: true // Support for external styles/images
+        });
+        
+        const imgData = canvas.toDataURL("image/png"); // Convert to PNG image data
+  
+        if (type === "pdf") {
+            const pdf = new jsPDF(); // Create a new PDF document
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width; // Maintain image aspect ratio
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight); //method from jsPDF library used to insert an image into the PDF.
+            pdf.save("schedule.pdf"); // Save PDF to device
+        } else {
+            const link = document.createElement("a");//creates invisible link (<a>) element in the HTML. 
+            link.href = imgData;
+            link.download = "schedule.jpg"; // Save as JPG to device
+            link.click();
+        }
+    };
+
+
     return (
         <div className="container" style={{ display: 'flex', gap: '2rem', marginTop: '2rem' }}>
             {/* Scheduler on the left */}
@@ -98,7 +131,26 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
                 <div
                     ref={schedulerContainerRef}
                     style={{ height: "680px", border: "1px solid #ccc", borderRadius: "8px" }}
+                
+                
+                
+                
+                
+                
+                
+                
                 ></div>
+
+
+            {/* New buttons added to allow users to download their schedule as .pdf/.jpg */}
+        {Object.keys(schedule).length > 0 && (
+                <div style={{ marginTop: "1rem" }}>
+                    <button onClick={() => handleDownload("pdf")}>Download as PDF</button> {/* Exports as PDF */}
+                    <button onClick={() => handleDownload("jpg")}>Download as JPG</button> {/* Exports as image */}
+                </div>
+            )}
+
+
             </div>
 
             {/* Schedule list on the right */}
