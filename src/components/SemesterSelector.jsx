@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ScheduleRestrictions from './ScheduleRestrictions'; 
 
-function SemesterSelector({semester, setSemester, termCode, setTermCode, setSelectedCourses}) {
+function SemesterSelector({semester, setSemester, termCode, setTermCode, setSelectedCourses, restrictions, setRestrictions}) {
     const [showDropdown, setShowDropdown] = useState(false);
 
     // predefined semester options and Banner term codes
@@ -49,7 +49,7 @@ function SemesterSelector({semester, setSemester, termCode, setTermCode, setSele
             </div>
 
     
-                <ScheduleRestrictions/>
+                <ScheduleRestrictions restrictions={restrictions} setRestrictions={setRestrictions}/>
             
         </div>
     );

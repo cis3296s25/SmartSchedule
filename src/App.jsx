@@ -16,6 +16,7 @@ function App() {
     const [loadingSchedules, setLoadingSchedules] = useState(false);
     const [schedule, setSchedule] = useState({});
     const schedulerContainerRef = useRef(null);
+    const [restrictions, setRestrictions] = useState([]);
 
 
     const handleGeneration = async () => {
@@ -59,7 +60,8 @@ function App() {
 
             // call generate API
             const response = await axios.post("http://localhost:8000/api/generate", {
-                courses: fullCourses
+                courses: fullCourses,
+                restrictions: restrictions
             });
 
             console.log("✅ Schedules:", response.data);
@@ -88,6 +90,8 @@ function App() {
                     termCode={termCode}
                     setTermCode={setTermCode}
                     setSelectedCourses={setSelectedCourses}
+                    restrictions={restrictions}
+                    setRestrictions={setRestrictions}
                 />
 
                 <CourseSearch
