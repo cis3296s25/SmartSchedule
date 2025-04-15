@@ -30,8 +30,14 @@ class Course(BaseModel):
     creditHours: int
     meetingTimes: List[MeetingTime]
 
+class TimeBlock(BaseModel):
+    start: str
+    end: str
+    days: List[str]
+
 class CourseRequest(BaseModel):
     courses: List[Course]
+    restrictions: List[str]
 
 @app.get("/")
 def root():
