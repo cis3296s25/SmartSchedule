@@ -56,7 +56,6 @@ def all_subjects(
 ):
     return {"subjects": get_all_subjects(term_code)}
 
-
 @app.get("/api/course-numbers", description="Get all course numbers from all courses")
 def course_numbers(
     term_code: str = Query(..., description="6-digit term code: 202503 for Spring 2025")

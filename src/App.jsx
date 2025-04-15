@@ -8,7 +8,6 @@ import GeneratedSchedules from "./components/GeneratedSchedules.jsx";
 import CourseSearch from './components/CourseSearch';
 import SelectedCourses from "./components/SelectedCourses.jsx";
 
-
 function App() {
     const [message, setMessage] = useState('');
     const [selectedCourses, setSelectedCourses] = useState([]);

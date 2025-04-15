@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import ScheduleRestrictions from './ScheduleRestrictions'; 
 
 function SemesterSelector({semester, setSemester, termCode, setTermCode, setSelectedCourses}) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -33,7 +34,7 @@ function SemesterSelector({semester, setSemester, termCode, setTermCode, setSele
                     value={semester}
                     onFocus={() => setShowDropdown(true)}
                     onChange={() => {
-                    }} // optional: prevent manual typing
+                    }} // optional: prevent manual typing 
                 />
 
                 {showDropdown && (
@@ -47,9 +48,9 @@ function SemesterSelector({semester, setSemester, termCode, setTermCode, setSele
                 )}
             </div>
 
-            <div>
-                <h3>Schedule Restrictions</h3>
-            </div>
+    
+                <ScheduleRestrictions/>
+            
         </div>
     );
 }
