@@ -1,6 +1,7 @@
 from itertools import product
 
-def generateSchedules(courses):
+
+def generateSchedules(courses, restrictions=[]):
     all_schedules = {}
     count = 1
 
@@ -19,8 +20,12 @@ def generateSchedules(courses):
 
         for current_course in combo:
             for current_meeting in current_course["meetingTimes"]:
+
+                # skip async classes
                 if not current_meeting["start"] or not current_meeting["end"]:
                     continue
+
+                # check conflict with previously added courses
                 for selected in proposed_schedule.values():
                     for selected_meeting in selected["meetingTimes"]:
                         overlapping_days = set(current_meeting["days"]) & set(selected_meeting["days"])
@@ -32,6 +37,19 @@ def generateSchedules(courses):
                         break
                 if conflict:
                     break
+
+                # check for conflicts with restrictions
+                for restriction in restrictions:
+                    overlapping_days = set(current_meeting["days"]) & set(restriction["days"])
+                    if overlapping_days:
+                        if current_meeting["start"] < restriction["end"] and current_meeting["end"] > restriction[
+                            "start"]:
+                            conflict = True
+                            break
+                if conflict: break
+
+            if conflict:
+                break
 
             if not conflict:
                 proposed_schedule[current_course["code"]] = {
@@ -48,6 +66,4 @@ def generateSchedules(courses):
             all_schedules[count] = proposed_schedule
             count += 1
 
-
     return all_schedules
-
