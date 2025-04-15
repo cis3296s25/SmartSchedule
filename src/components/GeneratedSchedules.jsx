@@ -92,28 +92,74 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
     // func to download generated schedule as a .jpg/.pdf
     const handleDownload = async (type) => {
         if (!schedulerContainerRef.current) return;
-  
-        const canvas = await html2canvas(schedulerContainerRef.current, { // Capture the DOM element as a canvas
-          
-          //added the properties below to ensure full schedule generated was captured. 
-          scrollY: -window.scrollY, // Prevent sticky elements
-          windowHeight: schedulerContainerRef.current.scrollHeight, // Capture full height of scheduler
-          useCORS: true // Support for external styles/images
+
+        const today = new Date().toISOString().split("T")[0];
+
+        // Temporarily increase scheduler height to ensure all hours (e.g., 9–22) are visible (because screenshot only captures visible component displayed without scrolling)
+        const originalHeight = schedulerContainerRef.current.style.height;
+        schedulerContainerRef.current.style.height = "825px";
+        scheduler.setCurrentView(); // ensure scheduler re-renders
+    
+        const canvas = await html2canvas(schedulerContainerRef.current, {
+            scrollY: -window.scrollY,
+            windowHeight: schedulerContainerRef.current.scrollHeight,
+            useCORS: true
         });
-        
-        const imgData = canvas.toDataURL("image/png"); // Convert to PNG image data
-  
+
+        schedulerContainerRef.current.style.height = originalHeight; // restore UI
+    
+        // Get the schedule image
+        const scheduleImg = canvas;
+    
+        // Prepare text info (course details)
+        const selected = schedule[currentScheduleIndex];
+        const textLines = [];
+    
+        Object.values(selected).forEach(course => {
+            textLines.push(`${course.code ?? ""} - ${course.title}`); //if course.code is undefined, it won't print "undefined" in course descripton below downloaded screenshot/pdf
+            textLines.push(`Professor: ${course.professor}, CRN: ${course.CRN}, Credits: ${course.creditHours}`);
+            course.meetingTimes.forEach(mt => {
+                textLines.push(`${mt.days.join(', ')} | ${mt.start} - ${mt.end} (${mt.type})`);
+            });
+            textLines.push(""); // Spacer
+        });
+    
+        // Create a new canvas that is taller to fit text
+        const extraHeight = textLines.length * 20 + 40; // Adjust spacing
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = scheduleImg.width;
+        finalCanvas.height = scheduleImg.height + extraHeight;
+    
+        const ctx = finalCanvas.getContext("2d");
+    
+        // Draw the schedule image at top
+        ctx.drawImage(scheduleImg, 0, 0);
+    
+        // Add the course info text underneath
+        ctx.fillStyle = "black";
+        ctx.font = "16px Arial";
+        let y = scheduleImg.height + 30;
+    
+        textLines.forEach(line => {
+            ctx.fillText(line, 20, y);
+            y += 20;
+        });
+    
+        const finalImgData = finalCanvas.toDataURL("image/png");
+    
         if (type === "pdf") {
-            const pdf = new jsPDF(); // Create a new PDF document
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width; // Maintain image aspect ratio
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight); //method from jsPDF library used to insert an image into the PDF.
-            pdf.save("schedule.pdf"); // Save PDF to device
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "px",
+                format: [finalCanvas.width, finalCanvas.height]
+            });
+    
+            pdf.addImage(finalImgData, "PNG", 0, 0, finalCanvas.width, finalCanvas.height);
+            pdf.save(`schedule_${today}.pdf`);
         } else {
-            const link = document.createElement("a");//creates invisible link (<a>) element in the HTML. 
-            link.href = imgData;
-            link.download = "schedule.jpg"; // Save as JPG to device
+            const link = document.createElement("a");
+            link.href = finalImgData;
+            link.download = `schedule_${today}.jpg`;
             link.click();
         }
     };
@@ -166,7 +212,7 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
     
                     ics += "BEGIN:VEVENT\n";
                     ics += `DTSTAMP:${dtstamp}\n`;
-                    ics += `SUMMARY:${course.code} - ${course.title}\n`;
+                    ics += `SUMMARY:${course.code ?? ""} - ${course.title}\n`;//if course.code is undefined, it won't print "undefined" in course descripton below downloaded Ics file
                     ics += `DTSTART;TZID=America/New_York:${startDT}\n`;
                     ics += `DTEND;TZID=America/New_York:${endDT}\n`;
                     ics += `RRULE:FREQ=WEEKLY;BYDAY=${dayMap[day]};UNTIL=${untilDate}\n`; // stops after 17 weeks
