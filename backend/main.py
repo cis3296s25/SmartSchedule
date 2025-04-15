@@ -74,4 +74,7 @@ def course_numbers(
 def generate_schedule(data: CourseRequest):
     if not data.courses:
         return {"error": "No courses provided"}
-    return generateSchedules([course.dict() for course in data.courses])
+    return generateSchedules(
+        [course.dict() for course in data.courses],
+        [restriction.dict() for restriction in data.restrictions],
+    )
