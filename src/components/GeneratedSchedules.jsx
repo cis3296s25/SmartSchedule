@@ -136,7 +136,17 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
                         {Object.entries(schedule[currentScheduleIndex]).map(([courseCode, course]) => (
                         <div key={course.CRN} style={{ marginBottom: '1rem' }}>
                             <h4>{courseCode} - {course.title}</h4>
-                            <p><strong>Professor:</strong> {course.professor}</p>
+                            <p>
+                                <strong>Professor:</strong>{" "}
+                                <a
+                                    href={`https://www.ratemyprofessors.com/search/professors/999?q=${encodeURIComponent(course.professor)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: "#2563eb", textDecoration: "underline" }}
+                                >
+                                    {course.professor}
+                                </a>
+                            </p>
                             <p><strong>CRN:</strong> {course.CRN}</p>
                             <p><strong>Credits:</strong> {course.creditHours}</p>
                             <div>
