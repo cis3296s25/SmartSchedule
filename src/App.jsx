@@ -105,9 +105,27 @@ function App() {
 
             </div>
 
-            <button onClick={handleGeneration} disabled={loadingSchedules}>
+            {/* <button onClick={handleGeneration} disabled={loadingSchedules}>
               {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
+            </button> */}
+
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <button onClick={handleGeneration} disabled={loadingSchedules}>
+                {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
             </button>
+
+            <button
+                onClick={() =>
+                window.open(
+                    "https://prd-xereg.temple.edu/StudentRegistrationSsb/ssb/registration",
+                    "_blank"
+                )
+                }
+            >
+                🏫 Go to Temple Registration
+            </button>
+            </div>
+
 
             <GeneratedSchedules schedule={schedule} schedulerContainerRef={schedulerContainerRef} isLoading={loadingSchedules}/>
         </>
