@@ -32,10 +32,7 @@ function App() {
             const courseFetchPromises = selectedCourses.map(course => {
                 const [subject] = course.code.split(" ");
                 return axios.get("http://localhost:8000/api/subject/courses", {
-                    params: {
-                        subject,
-                        term_code: termCode
-                    }
+                    params: { subject, term_code: termCode }
                 });
             });
 
