@@ -4,6 +4,7 @@ from typing import List
 from pydantic import BaseModel
 from utils.algorithm import generateSchedules
 from utils.fetch import fetch_courses, get_all_courses, get_all_subjects
+from typing import Optional
 
 app = FastAPI()
 
@@ -16,8 +17,8 @@ app.add_middleware(
 )
 
 class MeetingTime(BaseModel):
-    start: str
-    end: str
+    start: Optional[str]
+    end: Optional[str]
     days: List[str]
     type: str
 
