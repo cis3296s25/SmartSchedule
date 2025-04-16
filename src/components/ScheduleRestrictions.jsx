@@ -161,8 +161,8 @@ function ScheduleRestrictions({restrictions, setRestrictions}) {
                                     <button
                                         onClick={() => deleteRestriction(index)}
                                         style={{
-                                            backgroundColor: 'white',
-                                            color: '#60101d',
+                                            backgroundColor: '#60101d',
+                                            color: 'white',
                                             padding: '0.5rem 1rem',
                                             borderRadius: '10px',
                                             border: 'none',
@@ -170,7 +170,7 @@ function ScheduleRestrictions({restrictions, setRestrictions}) {
                                             marginTop: '1.0rem' //
                                         }}
                                     >
-                                        Delete
+                                        X
                                     </button>
                                 </div>
                             )}

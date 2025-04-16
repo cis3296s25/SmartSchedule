@@ -46,7 +46,21 @@ function SelectedCourses({ selectedCourses, setSelectedCourses }) {
                         {Object.keys(groupedByCode).map((code, index) => (
                             <li key={index}>
                                 {code}
-                                <button onClick={() => handleRemoveCourseCode(code)}>Remove</button>
+                                <button
+                                        onClick={() => handleRemoveCourseCode(code)}
+                                        style={{
+                                            backgroundColor: '#60101d',
+                                            color: 'white',
+                                            padding: '0.5rem 1rem',
+                                            borderRadius: '10px',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            marginTop: '1.0rem'
+                                        }}
+                                    >
+                                        X
+                                    </button>
+                                {/* <button onClick={() => handleRemoveCourseCode(code)}>Remove</button> */}
                             </li>
                         ))}
                     </ul>

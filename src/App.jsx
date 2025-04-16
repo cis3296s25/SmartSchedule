@@ -108,20 +108,16 @@ function App() {
                         setSelectedCourses={setSelectedCourses}
                     />
 
-                <SelectedCourses
-                    selectedCourses={selectedCourses}
-                    setSelectedCourses={setSelectedCourses}
-                />
                 
 
                 </div>
 
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' , justifyContent: 'center'}}>
-            <button onClick={handleGeneration} disabled={loadingSchedules}>
-                {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
-            </button>
+                <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' , justifyContent: 'center'}}>
+                <button onClick={handleGeneration} disabled={loadingSchedules}>
+                    {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
+                </button>
 
-            
+                </div>
             </div>
             
 
