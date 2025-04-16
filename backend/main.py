@@ -30,8 +30,19 @@ class Course(BaseModel):
     creditHours: int
     meetingTimes: List[MeetingTime]
 
+class Restriction(BaseModel):
+    fromHour: str
+    fromMinute: str
+    fromAmPm: str
+    toHour: str
+    toMinute: str
+    toAmPm: str
+    isEntered: bool
+    days: dict
+
 class CourseRequest(BaseModel):
     courses: List[Course]
+    restrictions: Optional[List[Restriction]] = []
 
 @app.get("/")
 def root():
@@ -68,4 +79,7 @@ def course_numbers(
 def generate_schedule(data: CourseRequest):
     if not data.courses:
         return {"error": "No courses provided"}
-    return generateSchedules([course.dict() for course in data.courses])
+    return generateSchedules(
+        [course.dict() for course in data.courses],
+        [restriction.dict() for restriction in data.restrictions],
+    )
