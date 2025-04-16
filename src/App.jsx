@@ -104,14 +104,25 @@ function App() {
                         setSelectedCourses={setSelectedCourses}
                     />
 
+                <SelectedCourses
+                    selectedCourses={selectedCourses}
+                    setSelectedCourses={setSelectedCourses}
+                />
+                
+
                 </div>
 
-                <button onClick={handleGeneration} disabled={loadingSchedules}>
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' , justifyContent: 'center'}}>
+            <button onClick={handleGeneration} disabled={loadingSchedules}>
                 {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
-                </button>
+            </button>
 
-                <GeneratedSchedules schedule={schedule} schedulerContainerRef={schedulerContainerRef} isLoading={loadingSchedules}/>
+            
             </div>
+            
+
+            <GeneratedSchedules schedule={schedule} schedulerContainerRef={schedulerContainerRef} isLoading={loadingSchedules}/>
+
         </>
     );
 
