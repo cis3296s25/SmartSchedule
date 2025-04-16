@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-function ScheduleRestrictions() {
-    const [restrictions, setRestrictions] = useState([]);
+function ScheduleRestrictions({restrictions, setRestrictions}) {
     const [showSection, setShowSection] = useState(false);
 
     const hourOptions = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
