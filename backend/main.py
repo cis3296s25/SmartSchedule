@@ -4,6 +4,7 @@ from typing import List
 from pydantic import BaseModel
 from utils.algorithm import generateSchedules
 from utils.fetch import fetch_courses, get_all_courses, get_all_subjects
+from typing import Optional
 
 app = FastAPI()
 
@@ -16,8 +17,8 @@ app.add_middleware(
 )
 
 class MeetingTime(BaseModel):
-    start: str
-    end: str
+    start: Optional[str]
+    end: Optional[str]
     days: List[str]
     type: str
 
@@ -54,7 +55,6 @@ def all_subjects(
     term_code: str = Query(..., description="6-digit term code: 202503 for Spring 2025")
 ):
     return {"subjects": get_all_subjects(term_code)}
-
 
 @app.get("/api/course-numbers", description="Get all course numbers from all courses")
 def course_numbers(
