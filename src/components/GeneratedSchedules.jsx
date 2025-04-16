@@ -10,7 +10,16 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
 
         scheduler.init(schedulerContainerRef.current, new Date(), "week");
         scheduler.config.first_hour = 7;
-        scheduler.config.last_hour = 23;
+        scheduler.config.last_hour = 24;
+
+        // ✅ Format hour labels as 12-hour AM/PM
+        scheduler.templates.hour_scale = function(date) {
+            const hour = date.getHours();
+            const hour12 = ((hour + 11) % 12) + 1;
+            const ampm = hour >= 12 ? "PM" : "AM";
+            return hour12 + ":00" + ampm;
+        };
+
 
         if (!schedule || Object.keys(schedule).length === 0) return;
 
