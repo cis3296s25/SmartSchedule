@@ -162,13 +162,13 @@ function ScheduleRestrictions() {
                                     <button
                                         onClick={() => deleteRestriction(index)}
                                         style={{
-                                            backgroundColor: 'red',
-                                            color: 'white',
+                                            backgroundColor: 'white',
+                                            color: '#60101d',
                                             padding: '0.5rem 1rem',
-                                            borderRadius: '4px',
+                                            borderRadius: '10px',
                                             border: 'none',
                                             cursor: 'pointer',
-                                            marginTop: '1.0rem' // 
+                                            marginTop: '1.0rem' //
                                         }}
                                     >
                                         Delete
