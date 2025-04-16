@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import html2canvas from "html2canvas"; // Used to capture the DOM as an image
 import jsPDF from "jspdf"; // Used to generate and export PDF files
 
-function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
+
+function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
     const [currentScheduleIndex, setCurrentScheduleIndex] = useState(1);
     const scheduleKeys = Object.keys(schedule);
 
@@ -49,6 +50,7 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
 
                     if (!(day in dayMap)) return;
 
+                    if (!mt.start || !mt.end || mt.days.length === 0) return; // skip async courses
                     const startHour = parseInt(mt.start.substring(0, 2), 10);
                     const startMin = parseInt(mt.start.substring(2), 10);
                     const endHour = parseInt(mt.end.substring(0, 2), 10);
@@ -236,16 +238,18 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
 
 
     return (
-        <div className="container" style={{ display: 'flex', gap: '2rem', marginTop: '2rem' }}>
+        <div className="container" style={{display: 'flex', gap: '2rem', marginTop: '2rem'}}>
             {/* Scheduler on the left */}
-            <div style={{ flex: 2 }}>
-                <div style={{ marginBottom: '1rem' }}>
+            <div style={{flex: 2}}>
+                <div style={{marginBottom: '1rem'}}>
                     <button onClick={handlePrev} disabled={currentScheduleIndex === 1}>⬅️ Prev</button>
-                    <span style={{ margin: '0 1rem' }}>Schedule {currentScheduleIndex}</span>
-                    <button onClick={handleNext} disabled={currentScheduleIndex === scheduleKeys.length}>Next ➡️</button>
+                    <span style={{margin: '0 1rem'}}>Schedule {currentScheduleIndex}</span>
+                    <button onClick={handleNext} disabled={currentScheduleIndex === scheduleKeys.length}>Next ➡️
+                    </button>
                 </div>
                 <div
                     ref={schedulerContainerRef}
+
                     style={{ height: "680px", border: "1px solid #ccc", borderRadius: "8px" }}
                 
                 
@@ -253,8 +257,7 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
                 
                 
                 
-                
-                
+               
                 ></div>
 
 
@@ -271,7 +274,7 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
             </div>
 
             {/* Schedule list on the right */}
-            <div style={{ flex: 1 }}>
+            <div style={{flex: 1}}>
                 {/* /* {schedule[currentScheduleIndex] ? (
                     <div className="p-4 border rounded-lg shadow-md">
                         {Object.entries(schedule[currentScheduleIndex]).map(([courseCode, course]) => (
@@ -293,43 +296,49 @@ function GeneratedSchedules({ schedule, schedulerContainerRef, isLoading }) {
                     </div>
                 ) : (
                     <p className="text-gray-500">No schedule selected.</p>
-                )} */ }
+                )} */}
                 {isLoading ? (
                     <p className="text-gray-500">⏳ Generating your schedule...</p>
-                    ) : scheduleKeys.length === 0 ? (
-                    <p className="text-red-500">⚠️ No valid schedule could be generated. Try changing your selected courses.</p>
-                    ) : !schedule[currentScheduleIndex] ? (
+                ) : scheduleKeys.length === 0 ? (
+                    <p className="text-red-500">⚠️ No valid schedule could be generated. Try changing your selected
+                        courses.</p>
+                ) : !schedule[currentScheduleIndex] ? (
                     <p className="text-gray-500">No schedule selected.</p>
-                    ) : (
+                ) : (
                     <div className="p-4 border rounded-lg shadow-md">
                         {Object.entries(schedule[currentScheduleIndex]).map(([courseCode, course]) => (
-                        <div key={course.CRN} style={{ marginBottom: '1rem' }}>
-                            <h4>{courseCode} - {course.title}</h4>
-                            <p>
-                                <strong>Professor:</strong>{" "}
-                                <a
-                                    href={`https://www.ratemyprofessors.com/search/professors/999?q=${encodeURIComponent(course.professor)}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{ color: "#2563eb", textDecoration: "underline" }}
-                                >
-                                    {course.professor}
-                                </a>
-                            </p>
-                            <p><strong>CRN:</strong> {course.CRN}</p>
-                            <p><strong>Credits:</strong> {course.creditHours}</p>
-                            <div>
-                            {course.meetingTimes.map((mt, idx) => (
-                                <p key={idx}>
-                                {mt.days.join(', ')} | {mt.start} - {mt.end} ({mt.type})
+                            <div key={course.CRN} style={{marginBottom: '1rem'}}>
+                                <h4>{courseCode} - {course.title}</h4>
+                                <p>
+                                    <strong>Professor:</strong>{" "}
+                                    <a
+                                        href={`https://www.ratemyprofessors.com/search/professors/999?q=${encodeURIComponent(course.professor)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{color: "#2563eb", textDecoration: "underline"}}
+                                    >
+                                        {course.professor}
+                                    </a>
                                 </p>
-                            ))}
+                                <p><strong>CRN:</strong> {course.CRN}</p>
+                                <p><strong>Credits:</strong> {course.creditHours}</p>
+                                <div>
+                                    {course.meetingTimes.every(mt => !mt.start || !mt.end) ? (
+                                        <p><i>Asynchronous course</i></p>
+                                    ) : (
+                                        course.meetingTimes.map((mt, idx) => (
+                                            <p key={idx}>
+                                                {mt.days.join(', ')} | {mt.start} - {mt.end} ({mt.type})
+                                            </p>
+                                        ))
+                                    )}
+
+                                </div>
+                                <hr/>
                             </div>
-                            <hr />
-                        </div>
                         ))}
                     </div>
-                    )}
+                )}
 
             </div>
         </div>

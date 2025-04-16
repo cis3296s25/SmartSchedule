@@ -19,6 +19,8 @@ def generateSchedules(courses):
 
         for current_course in combo:
             for current_meeting in current_course["meetingTimes"]:
+                if not current_meeting["start"] or not current_meeting["end"]:
+                    continue
                 for selected in proposed_schedule.values():
                     for selected_meeting in selected["meetingTimes"]:
                         overlapping_days = set(current_meeting["days"]) & set(selected_meeting["days"])

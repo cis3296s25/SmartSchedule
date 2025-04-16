@@ -16,9 +16,14 @@ Site URL: https://cis3296s25.github.io/01-SmartSchedule/
     ```
     npm install
     ```
- 
     ```
     npm install axios
+    ```
+    ```
+    npm install jspdf
+    ```
+    ```
+    npm install html2canvas
     ```
 2. Start local development server: 
     ```
@@ -26,7 +31,7 @@ Site URL: https://cis3296s25.github.io/01-SmartSchedule/
     ```
 3. Wait up to 5 minutes for the courses to succesfully load onto the screen.
 
-4. Open another terminal, to run the backend.
+4. Open an additional terminal to run the backend.
  
 ---
 
@@ -46,7 +51,11 @@ Site URL: https://cis3296s25.github.io/01-SmartSchedule/
 
 ### How to run 
 
-1. In backend directory, run: 
+1. In the second terminal, navigate to the backend directory:
+   ```
+   cd backend
+   ```
+3. In the backend directory, run: 
     ```
     pip install -r requirements.txt
     ```
@@ -54,7 +63,7 @@ Site URL: https://cis3296s25.github.io/01-SmartSchedule/
    - Pip will install all backend dependencies required for this application.
 
 
-2. Start the server using 
+4. Start the server using 
     ```
     uvicorn main:app --reload --port 8000
     ```
