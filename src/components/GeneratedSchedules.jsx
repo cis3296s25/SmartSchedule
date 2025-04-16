@@ -326,9 +326,20 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
                             </div>
                         ))}
                     </div>
-                )}
+                    )}
+                <button
+                onClick={() =>
+                window.open(
+                    "https://prd-xereg.temple.edu/StudentRegistrationSsb/ssb/registration",
+                    "_blank"
+                )
+                }
+            >
+                🏫 Go to Temple Registration
+            </button>
 
             </div>
+            
         </div>
     );
 }
