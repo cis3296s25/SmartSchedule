@@ -7,6 +7,7 @@ import SemesterSelector from "./components/SemesterSelector.jsx";
 import GeneratedSchedules from "./components/GeneratedSchedules.jsx";
 import CourseSearch from './components/CourseSearch';
 import SelectedCourses from "./components/SelectedCourses.jsx";
+import NavBar from "./components/NavBar.jsx";
 
 function App() {
     const [message, setMessage] = useState('');
@@ -76,45 +77,47 @@ function App() {
 
     return (
         <>
+            <NavBar />
 
-            <h1>SmartSchedule 📅</h1>
-            <img src={logo} className="templelogo" />
-
-            <h3>Temple's Course Schedule Generator</h3>
-
-            <div className="container">
-
-                <SemesterSelector
-                    semester={semester}
-                    setSemester={setSemester}
-                    termCode={termCode}
-                    setTermCode={setTermCode}
-                    setSelectedCourses={setSelectedCourses}
-                    restrictions={restrictions}
-                    setRestrictions={setRestrictions}
-                />
-
-                <CourseSearch
-                    termCode={termCode}
-                    selectedCourses={selectedCourses}
-                    setSelectedCourses={setSelectedCourses}
-                    setMessage={setMessage}
-                />
-
-                <SelectedCourses
-                    selectedCourses={selectedCourses}
-                    setSelectedCourses={setSelectedCourses}
-                />
-                
-
+            <div > 
+                <h1> <br/><br/> Temple University<br/> Course Schedule Generator<br/></h1>
             </div>
 
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' , justifyContent: 'center'}}>
-            <button onClick={handleGeneration} disabled={loadingSchedules}>
-                {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
-            </button>
+            <div class = "center">
+                <div className="container">
 
-            
+                    <SemesterSelector
+                        semester={semester}
+                        setSemester={setSemester}
+                        termCode={termCode}
+                        setTermCode={setTermCode}
+                        setSelectedCourses={setSelectedCourses}
+                        restrictions={restrictions}
+                        setRestrictions={setRestrictions}
+                    />
+
+                    <CourseSearch
+                        termCode={termCode}
+                        selectedCourses={selectedCourses}
+                        setSelectedCourses={setSelectedCourses}
+                        setMessage={setMessage}
+                    />
+
+                    <SelectedCourses
+                        selectedCourses={selectedCourses}
+                        setSelectedCourses={setSelectedCourses}
+                    />
+
+                
+
+                </div>
+
+                <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' , justifyContent: 'center'}}>
+                <button onClick={handleGeneration} disabled={loadingSchedules}>
+                    {loadingSchedules ? <i>Generating...</i> : "Generate Schedules"}
+                </button>
+
+                </div>
             </div>
             
 

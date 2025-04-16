@@ -263,28 +263,6 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
 
             {/* Schedule list on the right */}
             <div style={{flex: 1}}>
-                {/* /* {schedule[currentScheduleIndex] ? (
-                    <div className="p-4 border rounded-lg shadow-md">
-                        {Object.entries(schedule[currentScheduleIndex]).map(([courseCode, course]) => (
-                            <div key={course.CRN} style={{ marginBottom: '1rem' }}>
-                                <h4>{courseCode} - {course.title}</h4>
-                                <p><strong>Professor:</strong> {course.professor}</p>
-                                <p><strong>CRN:</strong> {course.CRN}</p>
-                                <p><strong>Credits:</strong> {course.creditHours}</p>
-                                <div>
-                                    {course.meetingTimes.map((mt, idx) => (
-                                        <p key={idx}>
-                                            {mt.days.join(', ')} | {mt.start} - {mt.end} ({mt.type})
-                                        </p>
-                                    ))}
-                                </div>
-                                <hr/>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-gray-500">No schedule selected.</p>
-                )} */}
                 {isLoading ? (
                     <p className="text-gray-500">⏳ Generating your schedule...</p>
                 ) : scheduleKeys.length === 0 ? (
@@ -316,7 +294,7 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
                                     ) : (
                                         course.meetingTimes.map((mt, idx) => (
                                             <p key={idx}>
-                                                {mt.days.join(', ')} | {mt.start} - {mt.end} ({mt.type})
+                                                {mt.days.join(', ').toUpperCase()} | {mt.start.substring(0,2)}:{mt.start.substring(2,5)} - {mt.end.substring(0,2)}:{mt.end.substring(2,5)} ({mt.type})
                                             </p>
                                         ))
                                     )}
