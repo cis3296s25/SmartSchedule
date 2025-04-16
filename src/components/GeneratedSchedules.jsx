@@ -5,6 +5,15 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
     const [currentScheduleIndex, setCurrentScheduleIndex] = useState(1);
     const scheduleKeys = Object.keys(schedule);
 
+function formatTimeStr(timeStr) {
+    const hour = parseInt(timeStr.substring(0, 2), 10);
+    const minute = timeStr.substring(2);
+    const hour12 = ((hour + 11) % 12) + 1;
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    return `${hour12}:${minute}${ampm}`;
+}
+    
+
     useEffect(() => {
         if (!scheduler || !scheduler.init || !schedulerContainerRef.current) return;
 
@@ -167,7 +176,7 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
                                     ) : (
                                         course.meetingTimes.map((mt, idx) => (
                                             <p key={idx}>
-                                            {mt.days.join(', ').toUpperCase()} | {mt.start.substring(0,2)}:{mt.start.substring(2,5)} - {mt.end.substring(0,2)}:{mt.end.substring(2,5)} ({mt.type})
+                                            {mt.days.join(', ').toUpperCase()} | {formatTimeStr(mt.start)} - {formatTimeStr(mt.end)} ({mt.type})
                                             </p>
                                         ))
                                     )}
