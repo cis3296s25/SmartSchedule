@@ -167,7 +167,7 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
                                     ) : (
                                         course.meetingTimes.map((mt, idx) => (
                                             <p key={idx}>
-                                                {mt.days.join(', ')} | {mt.start} - {mt.end} ({mt.type})
+                                            {mt.days.join(', ').toUpperCase()} | {mt.start.substring(0,2)}:{mt.start.substring(2,5)} - {mt.end.substring(0,2)}:{mt.end.substring(2,5)} ({mt.type})
                                             </p>
                                         ))
                                     )}
