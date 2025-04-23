@@ -2,7 +2,7 @@
 ## Front End
 
 ---
-Site URL: https://cis3296s25.github.io/01-SmartSchedule/ 
+Site URL: https://cis3296s25.github.io/SmartSchedule/ 
 
 ### Requirements
 
