@@ -264,7 +264,9 @@ function GeneratedSchedules({schedule, schedulerContainerRef, isLoading}) {
             {/* Schedule list on the right */}
             <div style={{flex: 1}}>
                 {isLoading ? (
-                    <p className="text-gray-500">⏳ Generating your schedule...</p>
+                    <p className="text-gray-500">⏳ Generating your schedule... <br/>
+                    <img src="./spinner.svg" alt="loading"/>
+                    </p>
                 ) : scheduleKeys.length === 0 ? (
                     <p className="text-red-500">⚠️ No valid schedule could be generated. Try changing your selected
                         courses.</p>
