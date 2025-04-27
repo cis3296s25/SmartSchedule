@@ -1,111 +1,97 @@
+# Smart Schedule
 
-## Front End
+SmartSchedule is a web-based course scheduling tool for Temple University students that generates optimal, conflict-free schedules based on selected courses and personal time restrictions like work hours. It uses web scraping to pull real-time course data from Temple’s registration system, ensuring up-to-date information. Users can view all valid schedule combinations and access direct links to Rate My Professors and Temple’s registration portal for a seamless registration experience.
+
+<br/>
+
+<img src="https://github.com/user-attachments/assets/5c4aa925-f032-4370-88d4-c2e3550f6ce7" alt="Alt Text" width="850" height="400">
+
 
 ---
 Site URL: https://cis3296s25.github.io/SmartSchedule/ 
 
-### Requirements
-
-- Node.js
-- npm (Node package manager)
-
 ---
-### How to run 
+## How to run
 
-1. In project directory, run: 
+Requirements:
+- Node.js
+    - npm (bundled with Node.js)
+- Python
+    - pip (bundled with Python) 
+  
+## Front End
+
+Dependencies:
+- React/ReactDOM + Vite
+- axios
+- html2canvas
+- jspdf
+
+1. In project directory, install all dependencies: 
     ```
     npm install
     ```
-    ```
-    npm install axios
-    ```
-    ```
-    npm install jspdf
-    ```
-    ```
-    npm install html2canvas
-    ```
-2. Start local development server: 
-    ```
+      
+2. Start local development server
+   ```
     npm run dev
     ```
-3. Wait up to 5 minutes for the courses to succesfully load onto the screen.
 
-4. Open an additional terminal to run the backend.
- 
----
+## Back End
 
+Dependencies:
+- FastAPI
+- uvicorn
+- requests
+- beautifulsoup4
 
-## Backend
-
-
----
-
-### Requirements
-
-
-- Python 3.9+
-- pip (Python package manager)
-
----
-
-### How to run 
-
-1. In the second terminal, navigate to the backend directory:
-   ```
-   cd backend
-   ```
-3. In the backend directory, run: 
+1. In a new terminal, navigate to the backend folder 
+    ```
+    cd backend
+    ```
+    
+2. From here, install dependencies
     ```
     pip install -r requirements.txt
     ```
-   
-   - Pip will install all backend dependencies required for this application.
-
-
-4. Start the server using 
+3. Start the server using 
     ```
     uvicorn main:app --reload --port 8000
     ```
    - `--reload`: Enables hot-reloading 
    - `--port 8000`: Server will run at `http://localhost:8000`
 
-
 ---
 
-### API Endpoints
+## Troubleshooting
 
-Once the server is running, you can test these endpoints in your browser. 
+- Use a virtual environment (recommended)
+  
+    1. Create and activate a virtual environment inside the project folder
+        ```
+        python -m venv venv
+        source venv/bin/activate      # Mac/Linux
+        venv\Scripts\activate         # Windows
+        ```
+    2. Install the dependencies inside the virtual environment
+       ```
+        pip install -r requirements.txt
+       ```
+       
+- If you encounter errors like "module not found" for packages such as axios, react, or others:
+  
+    1. Try manually installing the missing package:
 
-If using a port different from 8000, be sure to replace 8000 with your port.
+        ```
+        npm install <package-name>
+        // example for axios: npm install axios
+        ```
+- API testing in Swagger
+  
+    1. After starting the backend server using 
 
-
-
-###  Root
-- Confirms the server is running  
-- **GET** [`http://localhost:8000/`](http://localhost:8000/)
-
-
-###  All Subjects (Hardcoded for now)  
-- **GET** [`http://localhost:8000/api/subjects`](http://localhost:8001/api/subjects)
-
-
-
-###  All Courses for a Subject  
-- **GET** `/api/subject/courses?subject=<SUBJECT>&term_code=<TERM_CODE>`
-
-- **Example**: [`http://localhost:8000/api/courses?subject=CIS&term_code=202503`](http://localhost:8001/api/courses?subject=CIS&term_code=202503)
-
-
-###  All Courses for All Subjects  
-
-- **GET** `/api/all-courses?term_code=<TERM_CODE>`
-
-- **Example**: [`http://localhost:8000/api/all-courses?term_code=202503`](http://localhost:8001/api/all-courses?term_code=202503)
-
----
-
-### Swagger UI 
-You can also test all APIs in this interactive UI: [`http://localhost:8000/docs`](http://localhost:8000/docs)
-
----
+        ```
+        uvicorn main:app --reload --port 8000
+        ```
+    2. APIs can be tested directly at: http://localhost:8000/docs 
+       
